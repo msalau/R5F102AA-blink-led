@@ -1,8 +1,8 @@
 PROJECT := blink-led
 
-CC ?= clang
-OBJCOPY ?= llvm-objcopy
-OBJDUMP ?= llvm-objdump
+CC := clang
+OBJCOPY := llvm-objcopy
+OBJDUMP := llvm-objdump
 
 TARGET_FLAGS = --target=rl78 -mcpu=s2
 CPPFLAGS = -Isrc -Igenerate -MMD -MP -MF$(@:.o=.d) -MT$@
@@ -31,7 +31,7 @@ clean:
 		$(OBJCOPY) $< -O srec $@
 
 %.lst: %.elf
-		$(OBJDUMP) -dS $< > $@
+		$(OBJDUMP) -dS $< >$@ 2>/dev/null
 
 build/$(PROJECT).elf build/$(PROJECT).cref: $(OBJS)
 		$(CC) $(LDFLAGS) $^ -o build/$(PROJECT).elf > build/$(PROJECT).cref

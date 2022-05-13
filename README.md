@@ -16,13 +16,6 @@ or
 
 ## Using a local rl78-llvm toolchain
 ```
-export CC=<path-to-rl78-llvm>/bin/clang
-export OBJCOPY=<path-to-rl78-llvm>/bin/llvm-objcopy
-export OBJDUMP=<path-to-rl78-llvm>/bin/llvm-objdump
-make
-```
-or
-```
 PATH=<path-to-rl78-llvm>/bin/:${PATH} make
 ```
 
