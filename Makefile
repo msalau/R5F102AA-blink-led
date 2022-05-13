@@ -1,7 +1,8 @@
 PROJECT := blink-led
 
-CC := clang
-OBJCOPY := llvm-objcopy
+CC ?= clang
+OBJCOPY ?= llvm-objcopy
+OBJDUMP ?= llvm-objdump
 
 TARGET_FLAGS = --target=rl78 -mcpu=s2
 CPPFLAGS = -Isrc -Igenerate -MMD -MP -MF$(@:.o=.d) -MT$@
@@ -21,13 +22,16 @@ DIRS := $(sort $(dir $(OBJS)))
 
 .PHONY: all clean
 
-all: build/$(PROJECT).srec
+all: build/$(PROJECT).srec build/$(PROJECT).lst
 
 clean:
 		rm -rf build
 
 %.srec: %.elf
 		$(OBJCOPY) $< -O srec $@
+
+%.lst: %.elf
+		$(OBJDUMP) -dS $< > $@
 
 build/$(PROJECT).elf build/$(PROJECT).cref: $(OBJS)
 		$(CC) $(LDFLAGS) $^ -o build/$(PROJECT).elf > build/$(PROJECT).cref
