@@ -1,0 +1,23 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build Image
+    runs-on: ubuntu-latest
+    container:
+      image: msalau/rl78-elf-llvm
+      volumes:
+        - ${{ github.workspace }}:/src
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        run: make -k
+      - name: Save
+        uses: actions/upload-artifact@v3
+        with:
+          name: Firmware Image
+          path: build/*.srec
+          if-no-files-found: error
